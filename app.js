@@ -29,12 +29,21 @@ app.get('/ok', (req, res) => {
   res.status(200).send();
 })
 
+app.get('/', async (req, res) => {
+  log('GET /');
+  await sleep(0.1);
+  res.send();
+});
+
 const server = app.listen(PORT, HOST)
 log(`Running on http://${HOST}:${PORT}`);
 
-function gracefulShutdown(signal) {
+const sleep = (s) => new Promise(resolve => setTimeout(resolve, s * 1000));
+
+async function gracefulShutdown(signal) {
   log(`\nReceived signal ${signal}`);
-  setTimeout(() => process.exit(1), 1000);
+  setTimeout(() => process.exit(1), 30000);
+  await sleep(25);
   server.close(() => {
     log('Server closed');
     process.exit(0);
@@ -45,8 +54,8 @@ process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
 
 
-setTimeout(() => {
-  log('failing from now on');
-  ok = false;
-}, 30000);
+// setTimeout(() => {
+//   log('failing from now on');
+//   ok = false;
+// }, 30000);
 
