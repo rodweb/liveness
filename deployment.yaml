@@ -30,7 +30,7 @@ spec:
       - name: liveness
         env: 
         - name: version
-          value: '9'
+          value: '1'
         image: liveness
         imagePullPolicy: Never
         livenessProbe:

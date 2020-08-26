@@ -31,7 +31,7 @@ app.get('/ok', (req, res) => {
 
 app.get('/', async (req, res) => {
   log('GET /');
-  await sleep(0.1);
+  await sleep(1);
   res.send();
 });
 
@@ -41,7 +41,7 @@ log(`Running on http://${HOST}:${PORT}`);
 const sleep = (s) => new Promise(resolve => setTimeout(resolve, s * 1000));
 
 async function gracefulShutdown(signal) {
-  log(`\nReceived signal ${signal}`);
+  log(`Received signal ${signal}`);
   setTimeout(() => process.exit(1), 30000);
   await sleep(25);
   server.close(() => {
@@ -52,10 +52,3 @@ async function gracefulShutdown(signal) {
 
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
-
-
-// setTimeout(() => {
-//   log('failing from now on');
-//   ok = false;
-// }, 30000);
-
